@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+  --accent: #6c63ff;
+  --teal: #2dd4bf;
+  --pink: #f472b6;
+  --amber: #fbbf24;
+  --green: #34d399;
+  --red: #f87171;
+  --blue: #60a5fa;
+}
+
+body { font-family: 'DM Sans', sans-serif; }
+
+.font-display { font-family: 'Syne', sans-serif; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #3f3f5a; border-radius: 99px; }
+
+/* Glow effect */
+.glow { box-shadow: 0 0 20px rgba(108,99,255,0.25); }
+
+/* Gradient text */
+.grad-text {
+  background: linear-gradient(135deg, #6c63ff, #2dd4bf);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 0.35s ease both; }
+
+@keyframes pulse-ring {
+  0%,100% { box-shadow: 0 0 0 0 rgba(248,113,113,0.4); }
+  50%     { box-shadow: 0 0 0 6px rgba(248,113,113,0); }
+}
+.pulse-ring { animation: pulse-ring 2s ease-in-out infinite; }
