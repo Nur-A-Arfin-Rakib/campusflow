@@ -1,15 +1,12 @@
 import axios from 'axios'
 
-// Development:  baseURL = '/api'  (Vite proxies to localhost:5000)
-// Production (Render static+server same domain):  baseURL = '/api'
-// Production (Railway — server is a separate URL):  baseURL = 'https://your-server.up.railway.app/api'
-const baseURL = (typeof __API_URL__ !== 'undefined' && __API_URL__)
-  ? `${__API_URL__}/api`
+const baseURL = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api`
   : '/api'
 
 const api = axios.create({
   baseURL,
-  withCredentials: true, // send HttpOnly cookies
+  withCredentials: true,
 })
 
 let isRefreshing = false
