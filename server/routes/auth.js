@@ -25,15 +25,15 @@ const createRefreshToken = async (userId) => {
 const setCookies = (res, accessToken, refreshToken) => {
   res.cookie('accessToken', accessToken, {
     httpOnly: true,
-    secure: isProd,
-    sameSite: isProd ? 'strict' : 'lax',
-    maxAge: 15 * 60 * 1000, // 15 min
+    secure: true,
+    sameSite: 'none',
+    maxAge: 15 * 60 * 1000,
   })
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
-    secure: isProd,
-    sameSite: isProd ? 'strict' : 'lax',
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    secure: true,
+    sameSite: 'none',
+    maxAge: 7 * 24 * 60 * 60 * 1000,
     path: '/api/auth/refresh',
   })
 }
@@ -46,7 +46,6 @@ router.post('/register', [
 ], validate, async (req, res) => {
   try {
     const { name, email, password } = req.body
-    // ✅ role from body is IGNORED — always 'student' on self-register
     if (await User.findOne({ email }))
       return res.status(400).json({ message: 'Email already exists' })
 
@@ -134,12 +133,11 @@ router.post('/forgot-password', loginLimiter, [
 ], validate, async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email })
-    // Always return 200 to prevent email enumeration
     if (!user) return res.json({ message: 'If that email exists, a reset link was sent.' })
 
     const resetToken = crypto.randomBytes(32).toString('hex')
     user.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex')
-    user.passwordResetExpires = new Date(Date.now() + 30 * 60 * 1000) // 30 min
+    user.passwordResetExpires = new Date(Date.now() + 30 * 60 * 1000)
     await user.save({ validateBeforeSave: false })
 
     const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`
