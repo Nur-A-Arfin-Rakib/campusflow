@@ -17,7 +17,7 @@ export default function Teachers() {
   const load = () => {
     setLoading(true)
     Promise.all([api.get('/teachers'), api.get('/departments')])
-      .then(([t, d]) => { setData(t.data); setDepartments(d.data) })
+      .then(([t, d]) => { setData(t.data.data); setDepartments(d.data.data) })
       .finally(() => setLoading(false))
   }
   useEffect(() => { load() }, [])
